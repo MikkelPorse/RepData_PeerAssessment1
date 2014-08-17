@@ -42,9 +42,9 @@ summed <- ddply(data, .(date), summarize,
                 totalsteps.na=sum(steps),
                 totalsteps= sum(steps,na.rm=T))
 
-## calculate average without the NA days
-average <- mean(summed$totalsteps.na,na.rm=T)
-
+## calculate mean and median without the NA days
+Mean <- mean(summed$totalsteps.na,na.rm=T)
+Median <- median(summed$totalsteps.na, na.rm=T)
 ## to help visualize, indicate weekends
 summed <- transform(summed, isweekend=weekdays.Date(date) %in% c("Saturday", "Sunday"))
 
@@ -53,21 +53,29 @@ ggplot(summed, aes(x=date, y=totalsteps, fill=isweekend))+
     geom_histogram(stat="identity")+
     ylab("Number of steps")+
     ggtitle("Total number of steps taken per day")+
-    geom_hline(aes(yintercept=average), color="blue")+
     scale_x_date(breaks = "2 week")+
     scale_fill_discrete(name="Type of day", labels=c("weekday", "weekend"))
 ```
 
 ![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
 
-The daily average number of steps is:
+Mean number of steps is:
 
 ```r
-average
+Mean
 ```
 
 ```
 ## [1] 10766
+```
+Median number of steps is:
+
+```r
+Median
+```
+
+```
+## [1] 10765
 ```
 
 ## What is the average daily activity pattern?
